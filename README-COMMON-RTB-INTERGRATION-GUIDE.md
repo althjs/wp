@@ -47,7 +47,7 @@ Widerplanet RTB 연동 가이드
 ## 1.1 Widerplanet RTB
 
 * 본 문서에서는, Widerplanet과 매체간 OpenRTB 프로토콜을 통해 연동하는 방법을 안내합니다.  
-* OpenRTB는 2010년 부터 IAB(Interactive Advertising Bureau)에서 제작되어 현재 까지 개발 진행 중이며 Widerplanet은 ***OpenRTB Specification version 2.5, OpenRTB-Native-Ads-Specification 1.2*** 을 기반으로 합니다. 단, 모든 스펙이 구현되어 있지는 않으며, 연동시 추가로 필요한 스펙은 양사간 협의하에 추가 구현됩니다.
+* OpenRTB는 2010년 부터 IAB(Interactive Advertising Bureau)에서 제작되어 현재 까지 개발 진행 중이며, Widerplanet은 ***[OpenRTB API Specification Version 2.5](http://cdn-aitg.widerplanet.com/static/OpenRTB-API-Specification-Version-2-5-FINAL.pdf)*** , ***[OpenRTB Dynamic Native Ads API Specification Version 1.2](http://cdn-aitg.widerplanet.com/static/OpenRTB-Native-Ads-Specification-Final-1.2.pdf)*** 을 기반으로 합니다. 단, 모든 스펙이 구현되어 있지는 않으며, 연동시 추가로 필요한 스펙은 양사간 협의하에 추가 구현됩니다.
 
 
 ## 1.2 Widerplanet 연동 절차
@@ -83,7 +83,7 @@ Widerplanet RTB 연동 가이드
 
 아래 그림은 익스체인지와 비더간의 OpenRTB 상호작용을 나타내고 있습니다. 광고 요청은 매체 사이트에서 발생됩니다. 매 광고 요청마다 비딩 요청이 모든 비더들에게 전파되고 비더로 부터 온 응답들은 일반적인 경매 룰에 의해 평가되어 위너(Winner)는 경매 성공을 통보받고 광고 마크업(markup)이 익스체인지로 전달됩니다. 다른 상호작용(블럭리스트 동기, 통신 제어 등)은 다음 제안에 포함되거나 이미 OpenRTB에 정의 되어있습니다.
 
-![OpenRTB-Basic](https://github.com/onnuridmc/ExelBid-RTB-Integration-Guide/raw/master/image/OpenRTB-Basic.png)
+![OpenRTB-Basic](https://cdn-aitg.widerplanet.com/static/open_rtb_request_sequence.jpg)
 
 ## 2.1 입찰 요청
 입찰 요청은 연동절차에 따라 부여받은 end-point 로 HTTP POST 프로토콜로 요청되어야 합니다.
