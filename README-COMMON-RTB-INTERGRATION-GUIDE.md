@@ -38,7 +38,7 @@ Widerplanet RTB 연동 가이드
     * [6.2 Bid Responses](#62-bid-responses)
       * [6.2.1 Example - 디스플레이 광고 응답](#621-example---디스플레이-광고-응답)
       * [6.2.2 Example - Native 광고 응답](#622-example---Native-광고-응답)
-  
+  * [7. 쿠키교환 Cookie Matching - Cookie Sync](#7-쿠키교환-cookie-matching---cookie-sync)
 
 <br/><br/>
 
@@ -58,12 +58,13 @@ Widerplanet RTB 연동 가이드
  01     | Widerplanet 연동 가이드 및 매체 questionnaire 전달       | Widerplanet
  02     | Widerplanet 연동 가이드 검토 및 매체 questionnaire 작성   | 매체
  03     | 가능 여부 판단 후 계약서 전달                              | Widerplanet
- 04     | 계약서 사인, Test 캠페인 설정 및 EndPoint 및 응답 전문 전달   | 매체
- 05     | 응답 전문 검토 확인                                     | Widerplanet                                                
- 06     | 테스트 연동 요청 시작                                    | Widerplanet, 매체
- 07     | 모니터링                                              | Widerplanet, 매체
- 08     | 테스트 종료 및 통계 정보 확인                             | Widerplanet, 매체
- 09     | 상용 연동 시작                                         | Widerplanet, 매체
+ 04     | 쿠키교환 Cookie Matching (사용자 ID 교환)                | Widerplanet, 매체
+ 05     | 계약서 사인, Test 캠페인 설정 및 EndPoint 및 응답 전문 전달   | 매체
+ 06     | 응답 전문 검토 확인                                     | Widerplanet                                                
+ 07     | 테스트 연동 요청 시작                                    | Widerplanet, 매체
+ 08     | 모니터링                                              | Widerplanet, 매체
+ 09     | 테스트 종료 및 통계 정보 확인                             | Widerplanet, 매체
+ 10     | 상용 연동 시작                                         | Widerplanet, 매체
 
 
 
@@ -394,7 +395,7 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
         "os": "Android",
         "osv": "7.0",
         "devicetype": 4,
-        "ifa": "894dfcb3-8ac4-43c0-a69c-f220d3851750",
+        "ifa": "894dfcb3-8ac4-43c0-a69c-012345678901",
         "js": 1,
         "connectiontype": 2,
         "dpidsha1": "70206284fca0297ba2108232e84c23d952ad5eed",
@@ -468,7 +469,7 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
         "os": "Android",
         "osv": "10",
         "devicetype": 4,
-        "ifa": "494cf0e4-99fc-4800-bc34-be1609667df3",
+        "ifa": "494cf0e4-99fc-4800-bc34-012345678901",
         "js": 1,
         "connectiontype": 3,
         "dpidsha1": "04aa638a63aeeffeed0ea13b5d729fec35e02ddb",
@@ -610,3 +611,25 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
   "cur": "USD"
 }
 ```
+
+<br/><br/>
+
+# 7. 쿠키교환 Cookie Matching - Cookie Sync
+
+매체 지면이 웹 사이트인 경우 매체는 Widerplanet 사용자 ID로 입찰요청을 해야합니다.
+
+단, adverting id (Google ADID, Applie IDFA) 를 필수로 가지고 있는 앱 메체인 경우 쿠키교환은 불필요합니다.
+
+쿠키교환과 입찰요청은 아래와 같은 flow 로 진행 됩니다.
+
+
+순서    | 내용                                                                                                          | 담당
+:-------|:-------------------------------------------------------------------------------------------------------------|:-------------------
+ 1     | 매체는 쿠키교환을 위한 end-point 를 Widerplanet 으로 제공합니다 (https 필수)                                        | 매체
+ 2     | Widerplanet 사용자가 광고주 사이트에 나타난 경우, 제공받은 end-point 로 "Widerplanet 사용자 ID" 추가하여 GET 방식으로 요청합니다.<br/>(hidden image 테그 호출방식) | Widerplanet
+ 3     | 매체는 전달받은 "Widerplanet 사용자 ID" 와 "매체 사용자 ID" 를 매체측 Database 에 저장합니다.                                  | 매체
+ 4     | 매체측 사용자가 네트워크에 나타난 경우, 매체측 Database 에 저장된 "Widerplanet 사용자 ID" 를 포함하여 Widerplanet 으로 입찰 요청합니다.    | 매체
+
+
+
+ 
