@@ -57,14 +57,15 @@ Widerplanet RTB 연동 가이드
  00     | 문의                                                 | 매체
  01     | Widerplanet 연동 가이드 및 매체 questionnaire 전달       | Widerplanet
  02     | Widerplanet 연동 가이드 검토 및 매체 questionnaire 작성   | 매체
- 03     | 가능 여부 판단 후 계약서 전달                              | Widerplanet
- 04     | 쿠키교환 Cookie Matching (사용자 ID 교환)                | Widerplanet, 매체
- 05     | 계약서 사인, Test 캠페인 설정 및 EndPoint 및 응답 전문 전달   | 매체
- 06     | 응답 전문 검토 확인                                     | Widerplanet                                                
- 07     | 테스트 연동 요청 시작                                    | Widerplanet, 매체
- 08     | 모니터링                                              | Widerplanet, 매체
- 09     | 테스트 종료 및 통계 정보 확인                             | Widerplanet, 매체
- 10     | 상용 연동 시작                                         | Widerplanet, 매체
+ 03     | 가능 여부 판단 후 디바이스 및 사이즈 협의                    | Widerplanet, 매체
+ 04     | 계약서 전달 및 날인                                     | Widerplanet, 매체
+ 05     | Web 매체 쿠키교환 Cookie Matching (사용자 ID 교환)        | Widerplanet, 매체
+ 06     | Test 캠페인 설정 및 EndPoint 및 응답 전문 전달            | Widerplanet, 매체
+ 07     | 응답 전문 검토 확인                                     | 매체
+ 08     | 테스트 연동 요청 시작                                    | Widerplanet, 매체
+ 09     | 모니터링                                              | Widerplanet, 매체
+ 10     | 테스트 종료 및 통계 정보 확인                             | Widerplanet, 매체
+ 11     | 상용 연동 시작                                         | Widerplanet, 매체
 
 
 
@@ -73,8 +74,6 @@ Widerplanet RTB 연동 가이드
     * Widerplanet 에서 구현된 소재를 HTML (iframe or full static html) 형태로 전달
   * Native 배너
     * OpenRTB Native Spec 에 따라 랜더링에 필요한 정보를 전달 (매체측 랜더링 구현 필요)
-
-자세한 배너 종류는 Widerplanet 소재 가이드 http://tg.widerplanet.com/assets/doc/WP_creative_guide_v.1.5.pdf 참조하세요.
 
 
 <br/><br/>
@@ -210,7 +209,7 @@ Native 형식의 Impression을 나타냅니다. Open RTB Native Spec에 의해 �
  devicetype     | integer |              | 디바이스 종류. IAB OpenRTB Spec 2.5 > 표 5.17 참조              
  make           | string  |              | 디바이스 제조사                                                 
  model          | string  |              | 디바이스 모델                                                   
- os             | string  |              | 디바이스 운영체제 (android, ios)                                
+ os             | string  | 필수          | 디바이스 운영체제 (android, ios)                                
  osv            | string  |              | 디바이스 운영체제 버전                                          
  h              | integer |              | 디바이스 넓이(pixel)                                            
  w              | integer |              | 디바이스 높이(pixel)                                            
@@ -242,8 +241,6 @@ Native 형식의 Impression을 나타냅니다. Open RTB Native Spec에 의해 �
  seatbid | object array | 필수         |                                                                                          
  bidid   | string       |              | 응답의 ID로 입찰자가 응답을 추적하기 위해 사용함. 입찰자에 의해 선택됩니다.              
  cur     | string       | 필수         | ISO–4217 코드의 단위통화.                                                                
- nbr     | integer      |              | IAB OpenRTB Spec 2.5 > 표 5.19 참조                                                      
- ext     |              |              | 규격 표준을 벗어나는 OpenRTB 주체가 동의한 경우 이 오브젝트로 규격의 유연성을 제공합니다
 
 최상위 오브젝트로 id는 BidRequest의 ID를 그대로 사용합니다. 최소 하나의 seatbid 오브젝트가 필수이며, 하나의 imp에 대한 입찰을 포함합니다.
 
@@ -259,10 +256,11 @@ Native 형식의 Impression을 나타냅니다. Open RTB Native Spec에 의해 �
  Name    | Type         | 필수, 기본값 | Description                                             
 :--------|:-------------|:-------------|:-----------------------------------------------------------------------------------------
  id      | string       | 필수         | 입찰자가 트래킹에 사용할 유니크한 아이디  
- impid   | string       | 필수         | 응답에 대한 요청 Imp 오브젝트의 
+ impid   | string       | 필수         | 응답에 대한 요청 Imp 오브젝트의 아이디
  price   | float        | 필수         | CPM 단위의 입찰 
  adid    | string       |              | 낙찰시 전송될 광고 ID 
  nurl    | string       |              | 낙찰시 통보 URL
+ lurl    | string       |              | 유찰시 통보 URL
  adm     | string       |              | 광고 마크업 
  adomain | string array | 필수         | 광고주 최상위 도메인(광고주 필터링에 사용) 
  bundle  | string       |              | 어플리케이션일 경우 패키지 명(앱광고등)
@@ -398,8 +396,8 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
         "ifa": "894dfcb3-8ac4-43c0-a69c-012345678901",
         "js": 1,
         "connectiontype": 2,
-        "dpidsha1": "70206284fca0297ba2108232e84c23d952ad5eed",
-        "dpidmd5": "4bcca03eee7b0e004405a36550497219",
+        "dpidsha1": "700000000230297ba2108232e84c23d952ad5eed",
+        "dpidmd5": "4bcca03eee7b0e00440asd2342342342",
         "geo": {
             "lat": 37.5985,
             "lon": 126.9783,
@@ -413,17 +411,17 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
         "lmt": 0
     },
     "app": {
-        "id": "1769876",
-        "name": "[공식]고속버스 티머니",
-        "bundle": "com.kscc.scxb.mbl",
-        "storeurl": "https://play.google.com/store/apps/details?id=com.kscc.scxb.mbl",
-        "keywords": "Maps&Navigation",
+        "id": "1233434",
+        "name": "앱 이름",
+        "bundle": "com.testapp",
+        "storeurl": "https://play.google.com/store/apps/details?id=com.testapp",
+        "keywords": "Massenger&Community",
         "cat": [
             "IAB3"
         ],
         "publisher": {
-            "name": "(주)티머니",
-            "id": "8e380da6-31ba-488c-939c-290c48d577e4"
+            "name": "(주)매체",
+            "id": "a345434e-31ba-488c-939c-290c48d577e4"
         }
     },
     "allimps": 0,
@@ -432,8 +430,8 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
     ],
     "tmax": 234,
     "badv": [
-        "smartworldtraffic.com",
-        "adv_281_dom.com"
+        "block.com",
+        "adv_test.com"
     ],
     "at": 2
 }
@@ -446,9 +444,9 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
     "id": "a94aa51e-0940-4ab6-9f10-bd5ce9decbab",
     "imp": [
         {
-            "id": "e8a6f17a-588c-445d-b390-3b81a1789c4d",
+            "id": "23423432-588c-445d-b390-3b81a1789c4d",
             "instl": 0,
-            "tagid": "1530506-2-526496",
+            "tagid": "9999343-2-526496",
             "secure": 1,
             "exp": 1800,
             "native": {
@@ -472,8 +470,8 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
         "ifa": "494cf0e4-99fc-4800-bc34-012345678901",
         "js": 1,
         "connectiontype": 3,
-        "dpidsha1": "04aa638a63aeeffeed0ea13b5d729fec35e02ddb",
-        "dpidmd5": "82872bfca42fcd3a99fd387317efb9cc",
+        "dpidsha1": "700000000230297ba2108232e84c23d952ad5eed",
+        "dpidmd5": "4bcca03eee7b0e00440asd2342342342",
         "geo": {
             "lat": 37.5985,
             "lon": 126.9783,
@@ -487,17 +485,17 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
         "lmt": 0
     },
     "app": {
-        "id": "1530506",
-        "name": "Picture Japanese Dictionary",
-        "bundle": "com.wafour.wapicjapanese",
-        "storeurl": "https://play.google.com/store/apps/details?id=com.wafour.wapicjapanese",
-        "keywords": "dictionary",
+        "id": "1233434",
+        "name": "앱 이름",
+        "bundle": "com.testapp",
+        "storeurl": "https://play.google.com/store/apps/details?id=com.testapp",
+        "keywords": "Massenger&Community",
         "cat": [
-            "IAB5"
+            "IAB3"
         ],
         "publisher": {
-            "name": "Buzzvil inc",
-            "id": "8e380da6-31ba-488c-939c-290c48d577e4"
+            "name": "(주)매체",
+            "id": "a345434e-31ba-488c-939c-290c48d577e4"
         }
     },
     "allimps": 0,
@@ -520,12 +518,10 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
         "IAB1"
     ],
     "badv": [
-        "kr.neogames.realfarm",
-        "akmall.com",
-        "gs25.com",
-        "g9.co.kr"
+        "block.com",
+        "adv_test.com"
     ],
-    "at": 2
+    "at": 1
 }
 ```
 
@@ -536,7 +532,7 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
 
 ```json
 {
-  "id": "b680210a-17b4-4650-8bd9-f99c89c74e3a",
+  "id": "a94aa51e-0940-4ab6-9f10-bd5ce9decbab",
   "seatbid": [
     {
       "bid": [
@@ -544,13 +540,13 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
           "id": "4249acf3de5c84dc10542e2dfb34202216057703880280002874",
           "impid": "1eb3fd3b-b52e-4f33-8474-3762efdcb64d",
           "price": 0.09183216492909131,
-          "nurl": "https://algd.widerplanet.com/delivery/win.php?currid=h&shd_id=2&engine=3.0&v=1&zoneid=29400&lid=47350&dlid=4249acf3de5c84dc10542e2dfb34202216057703880280002874&appid=com.kscc.scxb.mbl&rvt=2&gpr=2s&v_resp=2.1&dmpc=1&dmpsc=49864&dmpsp=0&geotg=KR0110000&os=android&appid=com.kscc.scxb.mbl&zct=1&cb=f169367692&dtype=display&ctype=200&bannerid=4137482&campaignid=331520&rv=6w2m22o&orv=6w2m22o&cid=4949184&qsc=s1abd6&wp=${AUCTION_PRICE}&category=f9278757&render_type=display&ci_c=10&bst=1&bsui=-hosoLp4Y_CCVBWL-xEPOzk9ooeL5lioRH_ZywI-gS-dWyl1XH0VDYT99GAE6qrNnbglYsrpPgTxNqfmc3ZUoXcVZQEu1-rrFtJXBnWXzbyGSx_FdE10wGWXyho5-1KB9Ly08uqe8HCK-raY_58e3gtdCHNpHLeot_EXypUkjl4.&sl=admixereu&eb=KR&er2=MC4wMDA5NzcwNTM0Mg==&ebt=6",
-          "adm": "<iframe src=\"https://algd.widerplanet.com/delivery/rad.php?currid=h&shd_id=2&engine=3.0&v=1&zoneid=29400&lid=47350&dlid=4249acf3de5c84dc10542e2dfb34202216057703880280002874&appid=com.kscc.scxb.mbl&rvt=2&gpr=2s&v_resp=2.1&dmpc=1&dmpsc=49864&dmpsp=0&geotg=KR0110000&os=android&appid=com.kscc.scxb.mbl&zct=1&cb=f169367692&cid=331520&crid=4949184&c_type=200&d_type=display&ad_id=4137482&rv=6w2m22o&orv=6w2m22o&qsc=tti8pa&wp=${AUCTION_PRICE}&category=f9278757&render_type=display&ci_c=10&bst=1&bsui=-hosoLp4Y_CCVBWL-xEPOzk9ooeL5lioRH_ZywI-gS-dWyl1XH0VDYT99GAE6qrNnbglYsrpPgTxNqfmc3ZUoXcVZQEu1-rrFtJXBnWXzbyGSx_FdE10wGWXyho5-1KB9Ly08uqe8HCK-raY_58e3gtdCHNpHLeot_EXypUkjl4.&sl=admixereu&eb=KR&er2=MC4wMDA5NzcwNTM0Mg==&ebt=6&eb=KR\" width=\"320\" height=\"50\" scrolling=\"no\" border=\"0\" frameborder=\"0\"></iframe>",
+          "nurl": "https://algd.widerplanet.com/delivery/win.php?currid=h&shd_id=2&engine=3.0&v=1&zoneid=00000&lid=47350&dlid=4249acf3de5c84dc10542e2dfb34202216057703880280002874&appid=com.kscc.scxb.mbl&rvt=2&gpr=2s&v_resp=2.1&dmpc=1&dmpsc=49864&dmpsp=0&geotg=KR0110000&os=android&appid=com.kscc.scxb.mbl&zct=1&cb=f169367692&dtype=display&ctype=200&bannerid=4137482&campaignid=331520&rv=6w2m22o&orv=6w2m22o&cid=4949184&qsc=s1abd6&wp=${AUCTION_PRICE}&category=f9278757&render_type=display&ci_c=10&bst=1&bsui=-hosoLp4Y_CCVBWL-xEPOzk9ooeL5lioRH_ZywI-gS-dWyl1XH0VDYT99GAE6qrNnbglYsrpPgTxNqfmc3ZUoXcVZQEu1-rrFtJXBnWXzbyGSx_FdE10wGWXyho5-1KB9Ly08uqe8HCK-raY_58e3gtdCHNpHLeot_EXypUkjl4.&sl=foobar&eb=KR&er2=MC4wMDA5NzcwNTM0Mg==&ebt=6",
+          "adm": "<iframe src=\"https://algd.widerplanet.com/delivery/rad.php?currid=h&shd_id=2&engine=3.0&v=1&zoneid=00000&lid=47350&dlid=4249acf3de5c84dc10542e2dfb34202216057703880280002874&appid=com.kscc.scxb.mbl&rvt=2&gpr=2s&v_resp=2.1&dmpc=1&dmpsc=49864&dmpsp=0&geotg=KR0110000&os=android&appid=com.kscc.scxb.mbl&zct=1&cb=f169367692&cid=331520&crid=4949184&c_type=200&d_type=display&ad_id=4137482&rv=6w2m22o&orv=6w2m22o&qsc=tti8pa&wp=${AUCTION_PRICE}&category=f9278757&render_type=display&ci_c=10&bst=1&bsui=-hosoLp4Y_CCVBWL-xEPOzk9ooeL5lioRH_ZywI-gS-dWyl1XH0VDYT99GAE6qrNnbglYsrpPgTxNqfmc3ZUoXcVZQEu1-rrFtJXBnWXzbyGSx_FdE10wGWXyho5-1KB9Ly08uqe8HCK-raY_58e3gtdCHNpHLeot_EXypUkjl4.&sl=foobar&eb=KR&er2=MC4wMDA5NzcwNTM0Mg==&ebt=6&eb=KR\" width=\"320\" height=\"50\" scrolling=\"no\" border=\"0\" frameborder=\"0\"></iframe>",
           "adomain": [
             "ohou.se"
           ],
-          "bundle": "net.bucketplace",
-          "iurl": "https://cdn-aitg.widerplanet.com/images/wp/thumb_h/c0/7e/47350_4949184.jpg",
+          "bundle": "net.testapp",
+          "iurl": "https://cdn-aitg.widerplanet.com/images/wp/thumb_h/c0/7e/47350_400000.jpg",
           "cid": "331520",
           "crid": "47350_4949184_320x50__KOR",
           "cat": [
@@ -581,12 +577,12 @@ Widerplanet Native는 OpenRTB-Native-Ads-Specification-Final-1.2 를 기본으�
           "id": "4249acf3de5c84dc10542e2dfb34202216057706612450000542",
           "impid": "e8a6f17a-588c-445d-b390-3b81a1789c4d",
           "price": 0.09335114658043706,
-          "nurl": "https://algd.widerplanet.com/delivery/win.php?currid=h&shd_id=4&engine=3.0&v=1&zoneid=29398&lid=43416&dlid=4249acf3de5c84dc10542e2dfb34202216057706612450000542&appid=com.wafour.wapicjapanese&rvt=2&gpr=2s&v_resp=2.1&dmpc=1&dmpsc=49862&dmpsp=0&geotg=KR0370000&os=android&appid=com.wafour.wapicjapanese&zct=1&cb=29b232e319&dtype=display&ctype=201&bannerid=4218946&campaignid=337216&rv=2aovcow&cid=5051008&qsc=xswzhc&wp=${AUCTION_PRICE}&category=1530506-2-526496&render_type=native&ci_c=10&bst=1&bsui=mfnoI7eJ6ghGHT-oF8ycGa2yyChQOwOTj0Uc9HZuVa6E4B8iyIfMdrgROKy4RH-ONeOWXS8TY3DSXUaWB7GHciGAjWOO91lWn2K_cwR6vwD7BoM2V-4eH2xXTIzFme5CnVhzpezd5IqHLH5bstNJ6bl4nfC6f5p4PZ-Nw0G96L4.&sl=admixereu&eb=KR&er2=MC4wMDI1OTA5MzI2NQ==&ebt=0",
-          "adm": "{\"native\":{\"ver\":\"1.2\",\"assets\":[{\"id\":1,\"required\":0,\"data\":{\"value\":\"더 알아보기\",\"len\":6,\"type\":12}},{\"id\":2,\"title\":{\"text\":\"겨울방학  최상위권 결정전\"}},{\"id\":3,\"img\":{\"url\":\"https://cdn-aitg.widerplanet.com/images/ci/default_ci_300x300.png\",\"type\":1}},{\"id\":4,\"img\":{\"url\":\"https://cdn-aitg.widerplanet.com/images/wp/05/17/05d8013c9a129785373d319ef7f01117.jpg\",\"w\":1200,\"h\":627,\"type\":3}},{\"id\":6,\"required\":0,\"data\":{\"value\":\"강남하이퍼 의대관 2021 윈터스쿨\",\"len\":19,\"type\":2}}],\"link\":{\"url\":\"https://algd.widerplanet.com/delivery/ck.php?oaparams=2__currid=h__shd_id=4__engine=3.0__v=1__zoneid=29398__lid=43416__dlid=4249acf3de5c84dc10542e2dfb34202216057706612450000542__appid=com.wafour.wapicjapanese__rvt=2__gpr=2s__v_resp=2.1__dmpc=1__dmpsc=49862__dmpsp=0__geotg=KR0370000__os=android__appid=com.wafour.wapicjapanese__zct=1__cb=29b232e319__dtype=display__ctype=201__bannerid=4218946__campaignid=337216__rv=2aovcow__cid=5051008__oadest=http%3A%2F%2Fm.h4.hyperacademy.co.kr%2Fbranch%2Frecruit%2FdetailMain.do%3Frecruit_seq%3D375%26utm_source%3DMO_TG%26utm_medium%3Ddisplay%26utm_campaign%3DKEYWORD_A&qsc=40o1yk&wp=${AUCTION_PRICE}&category=1530506-2-526496&render_type=native&ci_c=10&bst=1&bsui=mfnoI7eJ6ghGHT-oF8ycGa2yyChQOwOTj0Uc9HZuVa6E4B8iyIfMdrgROKy4RH-ONeOWXS8TY3DSXUaWB7GHciGAjWOO91lWn2K_cwR6vwD7BoM2V-4eH2xXTIzFme5CnVhzpezd5IqHLH5bstNJ6bl4nfC6f5p4PZ-Nw0G96L4.&sl=admixereu&eb=KR&er2=MC4wMDI1OTA5MzI2NQ==&ebt=0\"},\"imptrackers\":[\"https://algd.widerplanet.com/delivery/lg.php?currid=h&shd_id=4&engine=3.0&v=1&zoneid=29398&lid=43416&dlid=4249acf3de5c84dc10542e2dfb34202216057706612450000542&appid=com.wafour.wapicjapanese&rvt=2&gpr=2s&v_resp=2.1&dmpc=1&dmpsc=49862&dmpsp=0&geotg=KR0370000&os=android&appid=com.wafour.wapicjapanese&zct=1&cb=86cc974da1&dtype=display&ctype=201&bannerid=4218946&campaignid=337216&rv=2aovcow&cid=5051008&qsc=1lxtzmi&wp=${AUCTION_PRICE}&category=1530506-2-526496&render_type=native&ci_c=10&bst=1&bsui=mfnoI7eJ6ghGHT-oF8ycGa2yyChQOwOTj0Uc9HZuVa6E4B8iyIfMdrgROKy4RH-ONeOWXS8TY3DSXUaWB7GHciGAjWOO91lWn2K_cwR6vwD7BoM2V-4eH2xXTIzFme5CnVhzpezd5IqHLH5bstNJ6bl4nfC6f5p4PZ-Nw0G96L4.&OXLIA=1&sl=admixereu&eb=KR&er2=MC4wMDI1OTA5MzI2NQ==&ebt=0\"]}}",
+          "nurl": "https://algd.widerplanet.com/delivery/win.php?currid=h&shd_id=4&engine=3.0&v=1&zoneid=00000&lid=43416&dlid=4249acf3de5c84dc10542e2dfb34202216057706612450000542&appid=com.wafour.wapicjapanese&rvt=2&gpr=2s&v_resp=2.1&dmpc=1&dmpsc=49862&dmpsp=0&geotg=KR0370000&os=android&appid=com.wafour.wapicjapanese&zct=1&cb=29b232e319&dtype=display&ctype=201&bannerid=4218946&campaignid=337216&rv=2aovcow&cid=5051008&qsc=xswzhc&wp=${AUCTION_PRICE}&category=1530506-2-526496&render_type=native&ci_c=10&bst=1&bsui=mfnoI7eJ6ghGHT-oF8ycGa2yyChQOwOTj0Uc9HZuVa6E4B8iyIfMdrgROKy4RH-ONeOWXS8TY3DSXUaWB7GHciGAjWOO91lWn2K_cwR6vwD7BoM2V-4eH2xXTIzFme5CnVhzpezd5IqHLH5bstNJ6bl4nfC6f5p4PZ-Nw0G96L4.&sl=foobar&eb=KR&er2=MC4wMDI1OTA5MzI2NQ==&ebt=0",
+          "adm": "{\"native\":{\"ver\":\"1.2\",\"assets\":[{\"id\":1,\"required\":0,\"data\":{\"value\":\"더 알아보기\",\"len\":6,\"type\":12}},{\"id\":2,\"title\":{\"text\":\"겨울방학  최상위권 결정전\"}},{\"id\":3,\"img\":{\"url\":\"https://cdn-aitg.widerplanet.com/images/ci/default_ci_300x300.png\",\"type\":1}},{\"id\":4,\"img\":{\"url\":\"https://cdn-aitg.widerplanet.com/images/wp/05/17/05d8013c9a129785373d319ef7f01117.jpg\",\"w\":1200,\"h\":627,\"type\":3}},{\"id\":6,\"required\":0,\"data\":{\"value\":\"테스트 광고 2021 고고고고\",\"len\":19,\"type\":2}}],\"link\":{\"url\":\"https://algd.widerplanet.com/delivery/ck.php?oaparams=2__currid=h__shd_id=4__engine=3.0__v=1__zoneid=00000__lid=43416__dlid=4249acf3de5c84dc10542e2dfb34202216057706612450000542__appid=com.wafour.wapicjapanese__rvt=2__gpr=2s__v_resp=2.1__dmpc=1__dmpsc=49862__dmpsp=0__geotg=KR0370000__os=android__appid=com.wafour.wapicjapanese__zct=1__cb=29b232e319__dtype=display__ctype=201__bannerid=4218946__campaignid=337216__rv=2aovcow__cid=5051008__oadest=http%3A%2F%2Fm.h4.hyperacademy.co.kr%2Fbranch%2Frecruit%2FdetailMain.do%3Frecruit_seq%3D375%26utm_source%3DMO_TG%26utm_medium%3Ddisplay%26utm_campaign%3DKEYWORD_A&qsc=40o1yk&wp=${AUCTION_PRICE}&category=1530506-2-526496&render_type=native&ci_c=10&bst=1&bsui=mfnoI7eJ6ghGHT-oF8ycGa2yyChQOwOTj0Uc9HZuVa6E4B8iyIfMdrgROKy4RH-ONeOWXS8TY3DSXUaWB7GHciGAjWOO91lWn2K_cwR6vwD7BoM2V-4eH2xXTIzFme5CnVhzpezd5IqHLH5bstNJ6bl4nfC6f5p4PZ-Nw0G96L4.&sl=foobar&eb=KR&er2=MC4wMDI1OTA5MzI2NQ==&ebt=0\"},\"imptrackers\":[\"https://algd.widerplanet.com/delivery/lg.php?currid=h&shd_id=4&engine=3.0&v=1&zoneid=00000&lid=43416&dlid=4249acf3de5c84dc10542e2dfb34202216057706612450000542&appid=com.wafour.wapicjapanese&rvt=2&gpr=2s&v_resp=2.1&dmpc=1&dmpsc=49862&dmpsp=0&geotg=KR0370000&os=android&appid=com.wafour.wapicjapanese&zct=1&cb=86cc974da1&dtype=display&ctype=201&bannerid=4218946&campaignid=337216&rv=2aovcow&cid=5051008&qsc=1lxtzmi&wp=${AUCTION_PRICE}&category=1530506-2-526496&render_type=native&ci_c=10&bst=1&bsui=mfnoI7eJ6ghGHT-oF8ycGa2yyChQOwOTj0Uc9HZuVa6E4B8iyIfMdrgROKy4RH-ONeOWXS8TY3DSXUaWB7GHciGAjWOO91lWn2K_cwR6vwD7BoM2V-4eH2xXTIzFme5CnVhzpezd5IqHLH5bstNJ6bl4nfC6f5p4PZ-Nw0G96L4.&OXLIA=1&sl=admixereu&eb=KR&er2=MC4wMDI1OTA5MzI2NQ==&ebt=0\"]}}",
           "adomain": [
-            "www.hyperacademy.co.kr"
+            "www.advertiser.com"
           ],
-          "iurl": "https://cdn-aitg.widerplanet.com/images/wp/05/17/05d8013c9a129785373d319ef7f01117.jpg",
+          "iurl": "https://cdn-aitg.widerplanet.com/images/wp/05/17/05d8013c0000129785373d319ef7f01117.jpg",
           "cid": "337216",
           "crid": "43416_5051008_0x0__KOR",
           "cat": [
